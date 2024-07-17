@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Price Prediction</title>
+    <style>
+        
+        canvas {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Set to a lower z-index than the form */
+        }
+        h1 {
+            color:cornsilk;
+            text-align: center;
+        }
+
+        form {
+            font-size:25px;
+            font-family: "Lucida Console", "Courier New", monospace;
+            max-width: 300px;
+            margin: auto;
+            background-color: rgba(255, 255, 234, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #prediction-result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('prediction-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                submitForm();
+            });
+
+            function submitForm() {
+                var form = document.getElementById('prediction-form');
+                var formData = new FormData(form);
+
+                fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayPrediction(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+
+            function displayPrediction(data) {
+                var predictionResult = document.getElementById('prediction-result');
+                if (data.error) {
+                    predictionResult.innerHTML = 'Error: ' + data.error;
+                } else {
+                    predictionResult.innerHTML = 'Predicted Price: $' + data.prediction;
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <canvas></canvas>
+
+    <h1 style=" font-family: 'Open Sans', sans-serif;color:cornsilk">Diamond Price Prediction</h1>
+    
+    <form id="prediction-form">
+        <label for="carat">Carat:</label>
+        <input type="text" name="carat" required>
+
+        <label for="color">Color:</label>
+        <select name="color" required>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+            <option value="I">I</option>
+            <option value="J">J</option>
+        </select>
+
+        <label for="clarity">Clarity:</label>
+        <select name="clarity" required>
+            <option value="IF">IF</option>
+            <option value="VVS1">VVS1</option>
+            <option value="VVS2">VVS2</option>
+            <option value="VS1">VS1</option>
+            <option value="VS2">VS2</option>
+            <option value="SI1">SI1</option>
+            <option value="SI2">SI2</option>
+            <option value="I1">I1</option>
+        </select>
+<style>
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        transition: 0.5s;
+        background: #1e1e1e;
+        cursor: pointer;
+        color: greenyellow;
+        box-shadow: 0 0 10px #363636, inset 0 0 10px #363636;
+      }
+      
+      button:hover {
+        animation: a 0.5s 1 linear;
+      }
+      
+      @keyframes a {
+        0% {
+          transform: scale(0.7, 1.3);
+        }
+      
+        25% {
+          transform: scale(1.3, 0.7);
+        }
+      
+        50% {
+          transform: scale(0.7, 1.3);
+        }
+      
+        75% {
+          transform: scale(1.3, 0.7);
+        }
+      
+        100% {
+          transform: scale(1, 1);
+        }
+      }
+      
+</style>
+        <button type="submit">Predict</button><br>
+        <p style="font-size:15px"> Go back to <a href="http://127.0.0.1:5000/" >home page </a> </p>
+
+    </form>
+    
+    <div style="font-size:30px;color:cornsilk; font-family: 'Open Sans', sans-serif;" id="prediction-result"></div>
+<!-- 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999-->
+
+    
+
+<style>body {
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+    background-image: radial-gradient(circle at top right, rgba(121, 68, 154, 0.13),       transparent),
+      radial-gradient(circle at 20% 80%, rgba(41, 196, 255, 0.13), transparent)
+  }
+
+  canvas {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }</style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const STAR_COUNT = ( window.innerWidth + window.innerHeight ) / 8,
+    STAR_SIZE = 3,
+    STAR_MIN_SCALE = 0.2,
+    OVERFLOW_THRESHOLD = 50;
+
+const canvas = document.querySelector( 'canvas' ),
+    context = canvas.getContext( '2d' );
+
+let scale = 1, // device pixel ratio
+  width,
+  height;
+
+let stars = [];
+
+let pointerX,
+  pointerY;
+
+let velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0005 };
+
+let touchInput = false;
+
+generate();
+resize();
+step();
+
+window.onresize = resize;
+canvas.onmousemove = onMouseMove;
+canvas.ontouchmove = onTouchMove;
+canvas.ontouchend = onMouseLeave;
+document.onmouseleave = onMouseLeave;
+
+function generate() {
+
+ for( let i = 0; i < STAR_COUNT; i++ ) {
+  stars.push({
+    x: 0,
+    y: 0,
+    z: STAR_MIN_SCALE + Math.random() * ( 1 - STAR_MIN_SCALE )
+  });
+ }
+
+}
+
+function placeStar( star ) {
+
+star.x = Math.random() * width;
+star.y = Math.random() * height;
+
+}
+
+function recycleStar( star ) {
+
+let direction = 'z';
+
+let vx = Math.abs( velocity.tx ),
+      vy = Math.abs( velocity.ty );
+
+if( vx > 1 && vy > 1 ) {
+  let axis;
+
+  if( vx > vy ) {
+    axis = Math.random() < Math.abs( velocity.x ) / ( vx + vy ) ? 'h' : 'v';
+  }
+  else {
+    axis = Math.random() < Math.abs( velocity.y ) / ( vx + vy ) ? 'v' : 'h';
+  }
+
+  if( axis === 'h' ) {
+    direction = velocity.x > 0 ? 'l' : 'r';
+  }
+  else {
+    direction = velocity.y > 0 ? 't' : 'b';
+  }
+}
+
+star.z = STAR_MIN_SCALE + Math.random() * ( 1 - STAR_MIN_SCALE );
+
+if( direction === 'z' ) {
+  star.z = 0.1;
+  star.x = Math.random() * width;
+  star.y = Math.random() * height;
+}
+else if( direction === 'l' ) {
+  star.x = -STAR_SIZE;
+  star.y = height * Math.random();
+}
+else if( direction === 'r' ) {
+  star.x = width + STAR_SIZE;
+  star.y = height * Math.random();
+}
+else if( direction === 't' ) {
+  star.x = width * Math.random();
+  star.y = -STAR_SIZE;
+}
+else if( direction === 'b' ) {
+  star.x = width * Math.random();
+  star.y = height + STAR_SIZE;
+}
+
+}
+
+function resize() {
+
+scale = window.devicePixelRatio || 1;
+
+width = window.innerWidth * scale;
+height = window.innerHeight * scale;
+
+canvas.width = width;
+canvas.height = height;
+
+stars.forEach( placeStar );
+
+}
+
+function step() {
+
+context.clearRect( 0, 0, width, height );
+
+update();
+render();
+
+requestAnimationFrame( step );
+
+}
+
+function update() {
+
+velocity.tx *= 0.95;
+velocity.ty *= 0.95;
+
+velocity.x += ( velocity.tx - velocity.x ) * 0.7;
+velocity.y += ( velocity.ty - velocity.y ) * 0.7;
+
+stars.forEach( ( star ) => {
+
+  star.x += velocity.x * star.z;
+  star.y += velocity.y * star.z;
+
+  star.x += ( star.x - width/2 ) * velocity.z * star.z;
+  star.y += ( star.y - height/2 ) * velocity.z * star.z;
+  star.z += velocity.z;
+
+  // recycle when out of bounds
+  if( star.x < -OVERFLOW_THRESHOLD || star.x > width + OVERFLOW_THRESHOLD || star.y < -OVERFLOW_THRESHOLD || star.y > height + OVERFLOW_THRESHOLD ) {
+    recycleStar( star );
+  }
+
+} );
+
+}
+
+function render() {
+
+stars.forEach( ( star ) => {
+
+  context.beginPath();
+  context.lineCap = 'round';
+  context.lineWidth = STAR_SIZE * star.z * scale;
+  context.strokeStyle = 'rgba(255,255,255,'+(0.5 + 0.5*Math.random())+')';
+
+  context.beginPath();
+  context.moveTo( star.x, star.y );
+
+  var tailX = velocity.x * 2,
+      tailY = velocity.y * 2;
+
+  // stroke() wont work on an invisible line
+  if( Math.abs( tailX ) < 0.1 ) tailX = 0.5;
+  if( Math.abs( tailY ) < 0.1 ) tailY = 0.5;
+
+  context.lineTo( star.x + tailX, star.y + tailY );
+
+  context.stroke();
+
+} );
+
+}
+
+function movePointer( x, y ) {
+
+if( typeof pointerX === 'number' && typeof pointerY === 'number' ) {
+
+  let ox = x - pointerX,
+      oy = y - pointerY;
+
+  velocity.tx = velocity.x + ( ox / 8*scale ) * ( touchInput ? -1 : 1 );
+  velocity.ty = velocity.y + ( oy / 8*scale ) * ( touchInput ? -1 : 1 );
+
+}
+
+pointerX = x;
+pointerY = y;
+
+}
+
+function onMouseMove( event ) {
+
+touchInput = false;
+
+movePointer( event.clientX, event.clientY );
+
+}
+
+function onTouchMove( event ) {
+
+touchInput = true;
+
+movePointer( event.touches[0].clientX, event.touches[0].clientY, true );
+
+event.preventDefault();
+
+}
+
+function onMouseLeave() {
+
+pointerX = null;
+pointerY = null;
+
+}
+});
+</script>
+
+
+</body>
+</html>
+

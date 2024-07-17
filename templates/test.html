@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Diamond Price Prediction</h1>
+    
+    <form action="/predict" method="post" id="diamondForm">
+        <label for="carat">Carat:</label>
+        <input type="text" name="carat" id="caratInput" required>
+
+        <label for="color">Color:</label>
+        <select name="color" id="colorSelect" required>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+            <option value="I">I</option>
+            <option value="J">J</option>
+        </select>
+
+        <label for="clarity">Clarity:</label>
+        <select name="clarity" id="claritySelect" required>
+            <option value="IF">IF</option>
+            <option value="VVS1">VVS1</option>
+            <option value="VVS2">VVS2</option>
+            <option value="VS1">VS1</option>
+            <option value="VS2">VS2</option>
+            <option value="SI1">SI1</option>
+            <option value="SI2">SI2</option>
+            <option value="I1">I1</option>
+        </select>
+
+        <button type="button" onclick="predictPrice()">Predict</button>
+    </form>
+
+    <script>
+        function predictPrice() {
+            const carat = document.getElementById('caratInput').value;
+            const color = document.getElementById('colorSelect').value;
+            const clarity = document.getElementById('claritySelect').value;
+
+            // You can add more validation if needed
+
+            // Submit the form programmatically
+            document.getElementById('diamondForm').submit();
+        }
+    </script>
+</body>
+</html>
